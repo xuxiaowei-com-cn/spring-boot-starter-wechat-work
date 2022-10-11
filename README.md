@@ -145,7 +145,7 @@
   mvn spring-javaformat:apply
   ```
 
-## [示例项目](https://gitee.com/xuxiaowei-com-cn/wechat-oplatform-example)
+## [示例项目](https://gitee.com/xuxiaowei-com-cn/wechat-work-example)
 
 ## 批量添加远端仓库地址
 
