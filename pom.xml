@@ -122,7 +122,7 @@
         <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-work</url>
         <connection>scm:git:https://git@github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-work.git
         </connection>
-        <developerConnection>http://xuxiaowei.com.cn</developerConnection>
+
     </scm>
 
     <issueManagement>
