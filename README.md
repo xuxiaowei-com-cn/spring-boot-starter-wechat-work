@@ -176,8 +176,10 @@ git remote add gitlink https://gitlink.org.cn/xuxiaowei-com-cn/spring-boot-start
 
 ## 参考文档
 
-- [网页授权登录](https://developer.work.weixin.qq.com/document/path/91120)
-- [扫码授权登录](https://developer.work.weixin.qq.com/document/path/91124)
+- [获取access_token](https://developer.work.weixin.qq.com/document/path/91039)
+- [网页授权登录](https://developer.work.weixin.qq.com/document/path/91022)
+- [扫码授权登录](https://developer.work.weixin.qq.com/document/path/91019)
+- [读取成员](https://developer.work.weixin.qq.com/document/path/90196)
 
 ## 鸣谢
 

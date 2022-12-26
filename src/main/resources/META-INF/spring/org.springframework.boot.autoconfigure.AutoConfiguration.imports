@@ -1,0 +1,4 @@
+org.springframework.security.oauth2.server.authorization.http.WeChatWorkWebsiteAuthorizeHttpFilter
+org.springframework.security.oauth2.server.authorization.http.WeChatWorkWebsiteCodeHttpFilter
+org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2WeChatWorkWebsiteConfiguration
+org.springframework.security.oauth2.server.authorization.properties.WeChatWorkWebsiteProperties
