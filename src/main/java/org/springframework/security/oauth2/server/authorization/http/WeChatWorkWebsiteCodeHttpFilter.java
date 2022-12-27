@@ -61,7 +61,7 @@ public class WeChatWorkWebsiteCodeHttpFilter extends HttpFilter {
 
 	public static final String PREFIX_URL = "/wechat-work/website/code";
 
-	public static final String TOKEN_URL = "/oauth2/token?grant_type={grant_type}&appid={appid}&code={code}&state={state}&client_id={client_id}&client_secret={client_secret}&remote_address={remote_address}&session_id={session_id}&binding={binding}";
+	public static final String TOKEN_URL = "/oauth2/token?grant_type={grant_type}&appid={appid}&agentid={agentid}&code={code}&state={state}&client_id={client_id}&client_secret={client_secret}&remote_address={remote_address}&session_id={session_id}&binding={binding}";
 
 	private WeChatWorkWebsiteProperties weChatWorkWebsiteProperties;
 
