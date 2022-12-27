@@ -81,4 +81,6 @@ public interface OAuth2WeChatWorkParameterNames {
 	 */
 	String BINDING = "binding";
 
+	String USERID = "userid";
+
 }

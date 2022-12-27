@@ -86,6 +86,12 @@ public class OAuth2WeChatWorkWebsiteAuthenticationProvider implements Authentica
 	 */
 	public static final String USERINFO_URL = "https://qyapi.weixin.qq.com/cgi-bin/auth/getuserinfo?access_token={access_token}&code={code}";
 
+	/**
+	 * @see <a href=
+	 * "https://developer.work.weixin.qq.com/document/path/90338">userid与openid互换</a>
+	 */
+	public static final String CONVERT_TO_OPENID_URL = "https://qyapi.weixin.qq.com/cgi-bin/user/convert_to_openid?access_token={access_token}";
+
 	private final HttpSecurity builder;
 
 	@Setter
@@ -150,8 +156,10 @@ public class OAuth2WeChatWorkWebsiteAuthenticationProvider implements Authentica
 		}
 
 		WeChatWorkWebsiteTokenResponse weChatWorkWebsiteTokenResponse = weChatWorkWebsiteService.getAccessTokenResponse(
-				appid, agentid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, remoteAddress, sessionId);
+				appid, agentid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, CONVERT_TO_OPENID_URL,
+				remoteAddress, sessionId);
 
+		String userid = weChatWorkWebsiteTokenResponse.getUserid();
 		String openid = weChatWorkWebsiteTokenResponse.getOpenid();
 		String unionid = weChatWorkWebsiteTokenResponse.getUnionid();
 
@@ -163,8 +171,8 @@ public class OAuth2WeChatWorkWebsiteAuthenticationProvider implements Authentica
 		builder.authorizationGrantType(OAuth2WeChatWorkWebsiteAuthenticationToken.WECHAT_WORK_WEBSITE);
 
 		AbstractAuthenticationToken abstractAuthenticationToken = weChatWorkWebsiteService.authenticationToken(
-				clientPrincipal, additionalParameters, grantAuthenticationToken.getDetails(), appid, code, openid, null,
-				unionid, accessToken, expiresIn);
+				clientPrincipal, additionalParameters, grantAuthenticationToken.getDetails(), appid, code, userid,
+				openid, null, unionid, accessToken, expiresIn);
 
 		builder.attribute(Principal.class.getName(), abstractAuthenticationToken);
 		builder.attribute(AUTHORIZED_SCOPE_KEY, requestedScopes);

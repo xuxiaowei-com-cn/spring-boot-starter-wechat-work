@@ -249,6 +249,7 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 	 * @param state 状态码
 	 * @param binding 是否绑定，需要使用者自己去拓展
 	 * @param userinfoUrl 通过 access_token 获取用户个人信息
+	 * @param convertToOpenidUrl 使用 userid 换取 openid
 	 * @param remoteAddress 用户IP
 	 * @param sessionId SessionID
 	 * @return 返回 微信授权结果
@@ -259,8 +260,8 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 	 */
 	@Override
 	public WeChatWorkWebsiteTokenResponse getAccessTokenResponse(String appid, String agentid, String code,
-			String state, String binding, String accessTokenUrl, String userinfoUrl, String remoteAddress,
-			String sessionId) throws OAuth2AuthenticationException {
+			String state, String binding, String accessTokenUrl, String userinfoUrl, String convertToOpenidUrl,
+			String remoteAddress, String sessionId) throws OAuth2AuthenticationException {
 		Map<String, String> uriVariables = new HashMap<>(8);
 		uriVariables.put(OAuth2WeChatWorkParameterNames.APPID, appid);
 
@@ -303,11 +304,36 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 			WeChatWorkWebsiteTokenResponse.User response = objectMapper.readValue(string,
 					WeChatWorkWebsiteTokenResponse.User.class);
 			weChatWorkWebsiteTokenResponse.setUser(response);
+			weChatWorkWebsiteTokenResponse.setUserid(response.getUserid());
 		}
 		catch (JsonProcessingException e) {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE,
 					"使用 企业微信 扫码授权登录 获取用户个人信息异常：", OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 			throw new OAuth2AuthenticationException(error, e);
+		}
+
+		if (weChatWorkWebsiteTokenResponse.getUserid() != null) {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			Map<String, String> body = new HashMap<>(4);
+			body.put(OAuth2WeChatWorkParameterNames.USERID, weChatWorkWebsiteTokenResponse.getUserid());
+			HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(body, httpHeaders);
+
+			Map<String, String> uriVariablesMap = new HashMap<>(4);
+			uriVariablesMap.put(OAuth2ParameterNames.ACCESS_TOKEN, accessToken);
+
+			String post = restTemplate.postForObject(convertToOpenidUrl, httpEntity, String.class, uriVariablesMap);
+			try {
+				WeChatWorkWebsiteTokenResponse.User response = objectMapper.readValue(post,
+						WeChatWorkWebsiteTokenResponse.User.class);
+				weChatWorkWebsiteTokenResponse.setUser(response);
+				weChatWorkWebsiteTokenResponse.setOpenid(response.getOpenid());
+			}
+			catch (JsonProcessingException e) {
+				OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE,
+						"使用 企业微信 扫码授权登录 使用userid获取openid异常：", OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
+				throw new OAuth2AuthenticationException(error, e);
+			}
 		}
 
 		return weChatWorkWebsiteTokenResponse;
@@ -333,8 +359,8 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 	 */
 	@Override
 	public AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
-			Map<String, Object> additionalParameters, Object details, String appid, String code, String openid,
-			Object credentials, String unionid, String accessToken, Integer expiresIn)
+			Map<String, Object> additionalParameters, Object details, String appid, String code, String userid,
+			String openid, Object credentials, String unionid, String accessToken, Integer expiresIn)
 			throws OAuth2AuthenticationException {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(weChatWorkWebsiteProperties.getDefaultRole());

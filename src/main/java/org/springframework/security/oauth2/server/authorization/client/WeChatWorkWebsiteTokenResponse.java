@@ -94,6 +94,8 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private String userid;
 
+		private String openid;
+
 		private String thumbAvatar;
 
 		private String alias;
