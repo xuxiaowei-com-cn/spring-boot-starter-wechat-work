@@ -94,7 +94,7 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 		String redirectUriPrefix = weChatWorkWebsite.getRedirectUriPrefix();
 
 		if (StringUtils.hasText(redirectUriPrefix)) {
-			return UriUtils.encode(redirectUriPrefix + "/" + appid, StandardCharsets.UTF_8);
+			return UriUtils.encode(redirectUriPrefix + "/" + appid + "/" + agentid, StandardCharsets.UTF_8);
 		}
 		else {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE, "重定向地址前缀不能为空", null);
