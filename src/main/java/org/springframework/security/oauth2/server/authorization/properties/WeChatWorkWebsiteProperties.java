@@ -48,6 +48,11 @@ public class WeChatWorkWebsiteProperties {
 	private String defaultRole;
 
 	/**
+	 * 默认 AppID
+	 */
+	private String defaultAppid;
+
+	/**
 	 * 企业微信 扫码授权登录 属性配置类
 	 *
 	 * @author xuxiaowei
