@@ -67,6 +67,22 @@ public class WeChatWorkWebsiteProperties {
 	}
 
 	/**
+	 * 默认 Agentid
+	 */
+	@Getter(AccessLevel.NONE)
+	private String getDefaultAgentid;
+
+	public String getGetDefaultAgentid() {
+		if (StringUtils.hasText(getDefaultAgentid)) {
+			return getDefaultAgentid;
+		}
+		if (list.size() > 0) {
+			return list.get(0).agentid;
+		}
+		return null;
+	}
+
+	/**
 	 * 企业微信 扫码授权登录 属性配置类
 	 *
 	 * @author xuxiaowei
