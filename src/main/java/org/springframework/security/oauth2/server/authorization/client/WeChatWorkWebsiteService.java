@@ -162,6 +162,7 @@ public interface WeChatWorkWebsiteService {
 	 * @param binding 是否绑定，需要使用者自己去拓展
 	 * @param accessTokenUrl 通过 code 换取网页授权 access_token 的 URL
 	 * @param userinfoUrl 通过 access_token 获取用户个人信息
+	 * @param getUserUrl 读取成员
 	 * @param convertToOpenidUrl 使用 userid 换取 openid
 	 * @param remoteAddress 用户IP
 	 * @param sessionId SessionID
@@ -172,8 +173,8 @@ public interface WeChatWorkWebsiteService {
 	 * 拦截处理此异常
 	 */
 	WeChatWorkWebsiteTokenResponse getAccessTokenResponse(String appid, String agentid, String code, String state,
-			String binding, String accessTokenUrl, String userinfoUrl, String convertToOpenidUrl, String remoteAddress,
-			String sessionId) throws OAuth2AuthenticationException;
+			String binding, String accessTokenUrl, String userinfoUrl, String getUserUrl, String convertToOpenidUrl,
+			String remoteAddress, String sessionId) throws OAuth2AuthenticationException;
 
 	/**
 	 * 构建 企业微信 扫码授权登录 认证信息

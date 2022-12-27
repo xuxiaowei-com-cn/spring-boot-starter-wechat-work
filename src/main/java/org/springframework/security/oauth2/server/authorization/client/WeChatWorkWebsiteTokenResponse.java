@@ -82,14 +82,16 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 	@Data
 	public static class User {
 
-		private int errcode;
+		private Integer errcode;
 
 		private String gender;
 
 		private String externalPosition;
 
+		@JsonProperty("is_leader_in_dept")
 		private List<Integer> isLeaderInDept;
 
+		@JsonProperty("direct_leader")
 		private List<String> directLeader;
 
 		private String userid;
@@ -122,7 +124,8 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private String avatar;
 
-		private int mainDepartment;
+		@JsonProperty("main_department")
+		private Integer mainDepartment;
 
 		private String name;
 
@@ -130,9 +133,17 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private String position;
 
+		@JsonProperty("external_profile")
 		private ExternalProfile externalProfile;
 
-		private int status;
+		private Integer status;
+
+		private Integer isleader;
+
+		private Integer enable;
+
+		@JsonProperty("hide_mobile")
+		private Integer hideMobile;
 
 	}
 
@@ -143,7 +154,7 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private String name;
 
-		private int type;
+		private Integer type;
 
 		private Text text;
 
@@ -161,7 +172,7 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private String name;
 
-		private int type;
+		private Integer type;
 
 		private Miniprogram miniprogram;
 
@@ -176,8 +187,10 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private WechatChannels wechatChannels;
 
+		@JsonProperty("external_attr")
 		private List<ExternalAttrItem> externalAttr;
 
+		@JsonProperty("external_corp_name")
 		private String externalCorpName;
 
 	}
@@ -187,7 +200,7 @@ public class WeChatWorkWebsiteTokenResponse implements Serializable {
 
 		private String nickname;
 
-		private int status;
+		private Integer status;
 
 	}
 

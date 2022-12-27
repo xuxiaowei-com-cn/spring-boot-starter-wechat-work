@@ -87,6 +87,11 @@ public class OAuth2WeChatWorkWebsiteAuthenticationProvider implements Authentica
 	public static final String USERINFO_URL = "https://qyapi.weixin.qq.com/cgi-bin/auth/getuserinfo?access_token={access_token}&code={code}";
 
 	/**
+	 * @see <a href="https://developer.work.weixin.qq.com/document/path/90196">读取成员</a>
+	 */
+	public static final String GET_USER_URL = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={access_token}&userid={userid}";
+
+	/**
 	 * @see <a href=
 	 * "https://developer.work.weixin.qq.com/document/path/90338">userid与openid互换</a>
 	 */
@@ -156,8 +161,8 @@ public class OAuth2WeChatWorkWebsiteAuthenticationProvider implements Authentica
 		}
 
 		WeChatWorkWebsiteTokenResponse weChatWorkWebsiteTokenResponse = weChatWorkWebsiteService.getAccessTokenResponse(
-				appid, agentid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, CONVERT_TO_OPENID_URL,
-				remoteAddress, sessionId);
+				appid, agentid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, GET_USER_URL,
+				CONVERT_TO_OPENID_URL, remoteAddress, sessionId);
 
 		String userid = weChatWorkWebsiteTokenResponse.getUserid();
 		String openid = weChatWorkWebsiteTokenResponse.getOpenid();
