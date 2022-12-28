@@ -21,6 +21,7 @@ package org.springframework.security.oauth2.server.authorization.client;
  */
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -278,6 +279,7 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 
 		WeChatWorkWebsiteTokenResponse weChatWorkWebsiteTokenResponse;
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
 			weChatWorkWebsiteTokenResponse = objectMapper.readValue(forObject, WeChatWorkWebsiteTokenResponse.class);
 		}
