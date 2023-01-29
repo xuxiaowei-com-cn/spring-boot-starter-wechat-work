@@ -303,16 +303,24 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 		map.put(OAuth2ParameterNames.CODE, code);
 
 		String string = restTemplate.getForObject(userinfoUrl, String.class, map);
+		WeChatWorkWebsiteTokenResponse.User useridResponse;
 		try {
-			WeChatWorkWebsiteTokenResponse.User response = objectMapper.readValue(string,
-					WeChatWorkWebsiteTokenResponse.User.class);
-			weChatWorkWebsiteTokenResponse.setUserid(response.getUserid());
+			useridResponse = objectMapper.readValue(string, WeChatWorkWebsiteTokenResponse.User.class);
 		}
 		catch (JsonProcessingException e) {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE,
 					"使用 企业微信 扫码授权登录 获取用户个人信息异常：", OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 			throw new OAuth2AuthenticationException(error, e);
 		}
+
+		Integer useridErrcode = useridResponse.getErrcode();
+		if (useridErrcode != 0) {
+			OAuth2Error error = new OAuth2Error(useridResponse.getErrcode() + "", useridResponse.getErrmsg(),
+					OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
+			throw new OAuth2AuthenticationException(error);
+		}
+
+		weChatWorkWebsiteTokenResponse.setUserid(useridResponse.getUserid());
 
 		String userid = weChatWorkWebsiteTokenResponse.getUserid();
 		if (userid != null) {
