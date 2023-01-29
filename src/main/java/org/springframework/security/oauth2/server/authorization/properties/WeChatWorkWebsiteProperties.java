@@ -60,6 +60,9 @@ public class WeChatWorkWebsiteProperties {
 		if (StringUtils.hasText(defaultAppid)) {
 			return defaultAppid;
 		}
+		if (list == null) {
+			return null;
+		}
 		if (list.size() > 0) {
 			return list.get(0).appid;
 		}
@@ -75,6 +78,9 @@ public class WeChatWorkWebsiteProperties {
 	public String getGetDefaultAgentid() {
 		if (StringUtils.hasText(getDefaultAgentid)) {
 			return getDefaultAgentid;
+		}
+		if (list == null) {
+			return null;
 		}
 		if (list.size() > 0) {
 			return list.get(0).agentid;
