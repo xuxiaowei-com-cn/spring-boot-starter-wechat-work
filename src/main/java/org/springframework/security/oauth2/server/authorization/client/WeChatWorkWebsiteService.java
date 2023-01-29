@@ -182,7 +182,9 @@ public interface WeChatWorkWebsiteService {
 	 * @param additionalParameters 附加参数
 	 * @param details 登录信息
 	 * @param appid AppID
+	 * @param agentid 应用ID
 	 * @param code 授权码
+	 * @param userid 用户ID
 	 * @param openid 用户唯一标识
 	 * @param credentials 证书
 	 * @param unionid 多账户用户唯一标识
@@ -195,8 +197,8 @@ public interface WeChatWorkWebsiteService {
 	 * 拦截处理此异常
 	 */
 	AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
-			Map<String, Object> additionalParameters, Object details, String appid, String code, String userid,
-			String openid, Object credentials, String unionid, String accessToken, Integer expiresIn)
+			Map<String, Object> additionalParameters, Object details, String appid, String agentid, String code,
+			String userid, String openid, Object credentials, String unionid, String accessToken, Integer expiresIn)
 			throws OAuth2AuthenticationException;
 
 	/**

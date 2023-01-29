@@ -176,8 +176,8 @@ public class OAuth2WeChatWorkWebsiteAuthenticationProvider implements Authentica
 		builder.authorizationGrantType(OAuth2WeChatWorkWebsiteAuthenticationToken.WECHAT_WORK_WEBSITE);
 
 		AbstractAuthenticationToken abstractAuthenticationToken = weChatWorkWebsiteService.authenticationToken(
-				clientPrincipal, additionalParameters, grantAuthenticationToken.getDetails(), appid, code, userid,
-				openid, null, unionid, accessToken, expiresIn);
+				clientPrincipal, additionalParameters, grantAuthenticationToken.getDetails(), appid, agentid, code,
+				userid, openid, null, unionid, accessToken, expiresIn);
 
 		builder.attribute(Principal.class.getName(), abstractAuthenticationToken);
 		builder.attribute(AUTHORIZED_SCOPE_KEY, requestedScopes);

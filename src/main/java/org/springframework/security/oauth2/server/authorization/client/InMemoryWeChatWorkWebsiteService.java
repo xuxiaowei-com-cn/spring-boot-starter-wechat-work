@@ -277,11 +277,11 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 
 		String forObject = restTemplate.getForObject(accessTokenUrl, String.class, uriVariables);
 
-		WeChatWorkWebsiteTokenResponse weChatWorkWebsiteTokenResponse;
+		WeChatWorkWebsiteTokenResponse accessTokenResponse;
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
-			weChatWorkWebsiteTokenResponse = objectMapper.readValue(forObject, WeChatWorkWebsiteTokenResponse.class);
+			accessTokenResponse = objectMapper.readValue(forObject, WeChatWorkWebsiteTokenResponse.class);
 		}
 		catch (JsonProcessingException e) {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE,
@@ -290,11 +290,11 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 			throw new OAuth2AuthenticationException(error, e);
 		}
 
-		Integer errcode = weChatWorkWebsiteTokenResponse.getErrcode();
-		String accessToken = weChatWorkWebsiteTokenResponse.getAccessToken();
+		Integer errcode = accessTokenResponse.getErrcode();
+		String accessToken = accessTokenResponse.getAccessToken();
 		if (errcode != 0) {
-			OAuth2Error error = new OAuth2Error(weChatWorkWebsiteTokenResponse.getErrcode() + "",
-					weChatWorkWebsiteTokenResponse.getErrmsg(), OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
+			OAuth2Error error = new OAuth2Error(accessTokenResponse.getErrcode() + "", accessTokenResponse.getErrmsg(),
+					OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 			throw new OAuth2AuthenticationException(error);
 		}
 
@@ -320,9 +320,9 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 			throw new OAuth2AuthenticationException(error);
 		}
 
-		weChatWorkWebsiteTokenResponse.setUserid(useridResponse.getUserid());
+		accessTokenResponse.setUserid(useridResponse.getUserid());
 
-		String userid = weChatWorkWebsiteTokenResponse.getUserid();
+		String userid = accessTokenResponse.getUserid();
 		if (userid != null) {
 
 			Map<String, String> uriVariablesMap = new HashMap<>(4);
@@ -333,7 +333,7 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 			try {
 				WeChatWorkWebsiteTokenResponse.User response = objectMapper.readValue(getForObject,
 						WeChatWorkWebsiteTokenResponse.User.class);
-				weChatWorkWebsiteTokenResponse.setUser(response);
+				accessTokenResponse.setUser(response);
 			}
 			catch (JsonProcessingException e) {
 				OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE,
@@ -351,8 +351,15 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 			try {
 				WeChatWorkWebsiteTokenResponse.User response = objectMapper.readValue(post,
 						WeChatWorkWebsiteTokenResponse.User.class);
-				weChatWorkWebsiteTokenResponse.setUser(response);
-				weChatWorkWebsiteTokenResponse.setOpenid(response.getOpenid());
+				WeChatWorkWebsiteTokenResponse.User user = accessTokenResponse.getUser();
+				String openid = response.getOpenid();
+				if (user == null) {
+					accessTokenResponse.setUser(response);
+				}
+				else {
+					user.setOpenid(openid);
+				}
+				accessTokenResponse.setOpenid(openid);
 			}
 			catch (JsonProcessingException e) {
 				OAuth2Error error = new OAuth2Error(OAuth2WeChatWorkWebsiteEndpointUtils.ERROR_CODE,
@@ -361,7 +368,7 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 			}
 		}
 
-		return weChatWorkWebsiteTokenResponse;
+		return accessTokenResponse;
 	}
 
 	/**
@@ -370,7 +377,9 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 	 * @param additionalParameters 附加参数
 	 * @param details 登录信息
 	 * @param appid AppID
+	 * @param agentid 应用ID
 	 * @param code 授权码
+	 * @param userid 用户ID
 	 * @param openid 用户唯一标识
 	 * @param credentials 证书
 	 * @param unionid 多账户用户唯一标识
@@ -384,8 +393,8 @@ public class InMemoryWeChatWorkWebsiteService implements WeChatWorkWebsiteServic
 	 */
 	@Override
 	public AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
-			Map<String, Object> additionalParameters, Object details, String appid, String code, String userid,
-			String openid, Object credentials, String unionid, String accessToken, Integer expiresIn)
+			Map<String, Object> additionalParameters, Object details, String appid, String agentid, String code,
+			String userid, String openid, Object credentials, String unionid, String accessToken, Integer expiresIn)
 			throws OAuth2AuthenticationException {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(weChatWorkWebsiteProperties.getDefaultRole());
