@@ -121,16 +121,16 @@ public class WeChatWorkWebsiteCodeHttpFilter extends HttpFilter {
 
 			Map<String, String> uriVariables = new HashMap<>(8);
 			uriVariables.put(OAuth2ParameterNames.GRANT_TYPE, grantType);
-			uriVariables.put(OAuth2WeChatWorkParameterNames.APPID, appid);
-			uriVariables.put(OAuth2WeChatWorkParameterNames.AGENTID, agentid);
+			uriVariables.put(OAuth2WeChatWorkWebsiteParameterNames.APPID, appid);
+			uriVariables.put(OAuth2WeChatWorkWebsiteParameterNames.AGENTID, agentid);
 			uriVariables.put(OAuth2ParameterNames.CODE, code);
 			uriVariables.put(OAuth2ParameterNames.STATE, state);
 			uriVariables.put(OAuth2ParameterNames.SCOPE, scope);
 			uriVariables.put(OAuth2ParameterNames.CLIENT_ID, clientId);
 			uriVariables.put(OAuth2ParameterNames.CLIENT_SECRET, clientSecret);
-			uriVariables.put(OAuth2WeChatWorkParameterNames.REMOTE_ADDRESS, remoteHost);
-			uriVariables.put(OAuth2WeChatWorkParameterNames.SESSION_ID, session == null ? "" : session.getId());
-			uriVariables.put(OAuth2WeChatWorkParameterNames.BINDING, binding);
+			uriVariables.put(OAuth2WeChatWorkWebsiteParameterNames.REMOTE_ADDRESS, remoteHost);
+			uriVariables.put(OAuth2WeChatWorkWebsiteParameterNames.SESSION_ID, session == null ? "" : session.getId());
+			uriVariables.put(OAuth2WeChatWorkWebsiteParameterNames.BINDING, binding);
 
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatWorkWebsiteService
 					.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);

@@ -25,7 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatWorkParameterNames;
+import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatWorkWebsiteParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientCredentialsAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2WeChatWorkWebsiteAuthenticationToken;
@@ -74,18 +74,20 @@ public class OAuth2WeChatWorkWebsiteAuthenticationConverter implements Authentic
 		}
 
 		// appid (REQUIRED)
-		String appid = parameters.getFirst(OAuth2WeChatWorkParameterNames.APPID);
+		String appid = parameters.getFirst(OAuth2WeChatWorkWebsiteParameterNames.APPID);
 
-		if (!StringUtils.hasText(appid) || parameters.get(OAuth2WeChatWorkParameterNames.APPID).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2WeChatWorkParameterNames.APPID,
-					OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
+		if (!StringUtils.hasText(appid) || parameters.get(OAuth2WeChatWorkWebsiteParameterNames.APPID).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,
+					OAuth2WeChatWorkWebsiteParameterNames.APPID, OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 		}
 
 		// agentid (REQUIRED)
-		String agentid = parameters.getFirst(OAuth2WeChatWorkParameterNames.AGENTID);
+		String agentid = parameters.getFirst(OAuth2WeChatWorkWebsiteParameterNames.AGENTID);
 
-		if (!StringUtils.hasText(agentid) || parameters.get(OAuth2WeChatWorkParameterNames.AGENTID).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2WeChatWorkParameterNames.AGENTID,
+		if (!StringUtils.hasText(agentid)
+				|| parameters.get(OAuth2WeChatWorkWebsiteParameterNames.AGENTID).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,
+					OAuth2WeChatWorkWebsiteParameterNames.AGENTID,
 					OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 		}
 
@@ -95,24 +97,25 @@ public class OAuth2WeChatWorkWebsiteAuthenticationConverter implements Authentic
 		String state = parameters.getFirst(OAuth2ParameterNames.STATE);
 
 		// 是否绑定，需要使用者自己去拓展
-		String binding = request.getParameter(OAuth2WeChatWorkParameterNames.BINDING);
+		String binding = request.getParameter(OAuth2WeChatWorkWebsiteParameterNames.BINDING);
 
 		Map<String, Object> additionalParameters = new HashMap<>(4);
 		parameters.forEach((key, value) -> {
 			if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) && !key.equals(OAuth2ParameterNames.CLIENT_ID)
 					&& !key.equals(OAuth2ParameterNames.CODE) && !key.equals(OAuth2ParameterNames.REDIRECT_URI)
 					&& !key.equals(OAuth2ParameterNames.CLIENT_SECRET)
-					&& !key.equals(OAuth2WeChatWorkParameterNames.APPID) && !key.equals(OAuth2ParameterNames.SCOPE)
-					&& !key.equals(OAuth2WeChatWorkParameterNames.AGENTID)
-					&& !OAuth2WeChatWorkParameterNames.REMOTE_ADDRESS.equals(key)
-					&& !OAuth2WeChatWorkParameterNames.SESSION_ID.equals(key)
-					&& !OAuth2WeChatWorkParameterNames.BINDING.equals(key)) {
+					&& !key.equals(OAuth2WeChatWorkWebsiteParameterNames.APPID)
+					&& !key.equals(OAuth2ParameterNames.SCOPE)
+					&& !key.equals(OAuth2WeChatWorkWebsiteParameterNames.AGENTID)
+					&& !OAuth2WeChatWorkWebsiteParameterNames.REMOTE_ADDRESS.equals(key)
+					&& !OAuth2WeChatWorkWebsiteParameterNames.SESSION_ID.equals(key)
+					&& !OAuth2WeChatWorkWebsiteParameterNames.BINDING.equals(key)) {
 				additionalParameters.put(key, value.get(0));
 			}
 		});
 
-		String remoteAddress = request.getParameter(OAuth2WeChatWorkParameterNames.REMOTE_ADDRESS);
-		String sessionId = request.getParameter(OAuth2WeChatWorkParameterNames.SESSION_ID);
+		String remoteAddress = request.getParameter(OAuth2WeChatWorkWebsiteParameterNames.REMOTE_ADDRESS);
+		String sessionId = request.getParameter(OAuth2WeChatWorkWebsiteParameterNames.SESSION_ID);
 
 		return new OAuth2WeChatWorkWebsiteAuthenticationToken(clientPrincipal, additionalParameters, appid, agentid,
 				code, scope, remoteAddress, sessionId, state, binding);

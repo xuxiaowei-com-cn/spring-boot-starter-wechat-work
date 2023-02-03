@@ -29,7 +29,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatWorkParameterNames;
+import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatWorkWebsiteParameterNames;
 import org.springframework.security.oauth2.server.authorization.client.WeChatWorkWebsiteService;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatWorkWebsiteProperties;
 import org.springframework.stereotype.Component;
@@ -91,7 +91,7 @@ public class WeChatWorkWebsiteAuthorizeHttpFilter extends HttpFilter {
 
 			String redirectUri = weChatWorkWebsiteService.getRedirectUriByAppidAndAgentid(appid, agentid);
 
-			String binding = request.getParameter(OAuth2WeChatWorkParameterNames.BINDING);
+			String binding = request.getParameter(OAuth2WeChatWorkWebsiteParameterNames.BINDING);
 
 			String state = weChatWorkWebsiteService.stateGenerate(request, response, appid, agentid);
 			weChatWorkWebsiteService.storeBinding(request, response, appid, agentid, state, binding);
