@@ -77,15 +77,17 @@ public class OAuth2WeChatWorkWebsiteAuthenticationConverter implements Authentic
 		String appid = parameters.getFirst(OAuth2WeChatWorkWebsiteParameterNames.APPID);
 
 		if (!StringUtils.hasText(appid) || parameters.get(OAuth2WeChatWorkWebsiteParameterNames.APPID).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2WeChatWorkWebsiteParameterNames.APPID,
-					OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,
+					OAuth2WeChatWorkWebsiteParameterNames.APPID, OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 		}
 
 		// agentid (REQUIRED)
 		String agentid = parameters.getFirst(OAuth2WeChatWorkWebsiteParameterNames.AGENTID);
 
-		if (!StringUtils.hasText(agentid) || parameters.get(OAuth2WeChatWorkWebsiteParameterNames.AGENTID).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2WeChatWorkWebsiteParameterNames.AGENTID,
+		if (!StringUtils.hasText(agentid)
+				|| parameters.get(OAuth2WeChatWorkWebsiteParameterNames.AGENTID).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,
+					OAuth2WeChatWorkWebsiteParameterNames.AGENTID,
 					OAuth2WeChatWorkWebsiteEndpointUtils.AUTH_WEBSITE_URI);
 		}
 
@@ -102,7 +104,8 @@ public class OAuth2WeChatWorkWebsiteAuthenticationConverter implements Authentic
 			if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) && !key.equals(OAuth2ParameterNames.CLIENT_ID)
 					&& !key.equals(OAuth2ParameterNames.CODE) && !key.equals(OAuth2ParameterNames.REDIRECT_URI)
 					&& !key.equals(OAuth2ParameterNames.CLIENT_SECRET)
-					&& !key.equals(OAuth2WeChatWorkWebsiteParameterNames.APPID) && !key.equals(OAuth2ParameterNames.SCOPE)
+					&& !key.equals(OAuth2WeChatWorkWebsiteParameterNames.APPID)
+					&& !key.equals(OAuth2ParameterNames.SCOPE)
 					&& !key.equals(OAuth2WeChatWorkWebsiteParameterNames.AGENTID)
 					&& !OAuth2WeChatWorkWebsiteParameterNames.REMOTE_ADDRESS.equals(key)
 					&& !OAuth2WeChatWorkWebsiteParameterNames.SESSION_ID.equals(key)
