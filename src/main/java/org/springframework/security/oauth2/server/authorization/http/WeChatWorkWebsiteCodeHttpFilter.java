@@ -109,7 +109,7 @@ public class WeChatWorkWebsiteCodeHttpFilter extends HttpFilter {
 			String binding = weChatWorkWebsiteService.getBinding(request, response, appid, agentid, code, state);
 
 			WeChatWorkWebsiteProperties.WeChatWorkWebsite weChatWorkWebsite = weChatWorkWebsiteService
-					.getWeChatWorkWebsiteByAppidAndAgentid(appid, agentid);
+				.getWeChatWorkWebsiteByAppidAndAgentid(appid, agentid);
 
 			String clientId = weChatWorkWebsite.getClientId();
 			String clientSecret = weChatWorkWebsite.getClientSecret();
@@ -133,7 +133,7 @@ public class WeChatWorkWebsiteCodeHttpFilter extends HttpFilter {
 			uriVariables.put(OAuth2WeChatWorkWebsiteParameterNames.BINDING, binding);
 
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatWorkWebsiteService
-					.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);
+				.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);
 			if (oauth2AccessTokenResponse == null) {
 				return;
 			}

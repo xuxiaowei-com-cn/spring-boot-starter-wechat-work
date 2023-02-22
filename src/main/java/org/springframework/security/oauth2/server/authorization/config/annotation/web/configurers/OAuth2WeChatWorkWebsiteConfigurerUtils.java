@@ -48,13 +48,13 @@ public class OAuth2WeChatWorkWebsiteConfigurerUtils {
 
 	public static WeChatWorkWebsiteService getWeChatWorkWebsiteService(HttpSecurity httpSecurity) {
 		WeChatWorkWebsiteService weChatWorkWebsiteService = httpSecurity
-				.getSharedObject(WeChatWorkWebsiteService.class);
+			.getSharedObject(WeChatWorkWebsiteService.class);
 		if (weChatWorkWebsiteService == null) {
 			weChatWorkWebsiteService = OAuth2ConfigurerUtils.getOptionalBean(httpSecurity,
 					WeChatWorkWebsiteService.class);
 			if (weChatWorkWebsiteService == null) {
 				WeChatWorkWebsiteProperties weChatWorkWebsiteProperties = OAuth2ConfigurerUtils
-						.getOptionalBean(httpSecurity, WeChatWorkWebsiteProperties.class);
+					.getOptionalBean(httpSecurity, WeChatWorkWebsiteProperties.class);
 				weChatWorkWebsiteService = new InMemoryWeChatWorkWebsiteService(weChatWorkWebsiteProperties);
 			}
 		}
